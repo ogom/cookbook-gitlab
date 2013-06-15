@@ -13,7 +13,11 @@ Chef to install The GitLab.
 
 * [Berkshelf](http://berkshelf.com/)
 * [Vagrant](http://www.vagrantup.com/)
+
+### Vagrant Plugin
+
 * [vagrant-berkshelf](https://github.com/RiotGames/vagrant-berkshelf)
+* [vagrant-aws](https://github.com/mitchellh/vagrant-aws)
 
 
 ### Platform:
@@ -36,6 +40,8 @@ Chef to install The GitLab.
 
 ### Vagrant
 
+#### VirtualBox 
+
 ```bash
 $ gem install berkshelf
 $ vagrant plugin install vagrant-berkshelf
@@ -47,7 +53,28 @@ $ vagrant ssh
 vagrant$ sudo apt-get install -y curl
 vagrant$ curl -L https://www.opscode.com/chef/install.sh | sudo bash
 vagrant$ exit
-$ vagrant reload
+$ vagrant provision
+```
+
+#### Amazon Web Services
+
+```bash
+$ gem install berkshelf
+$ vagrant plugin install vagrant-berkshelf
+$ vagrant plugin install vagrant-aws
+$ vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
+$ git clone git://github.com/ogom/cookbook-gitlab ./gitlab
+$ cd ./gitlab/
+$ cp ./example/Vagrantfile_aws ./Vagrantfile
+$ vi ./Vagrantfile
+$ vagrant up --provider=aws
+$ vagrant ssh
+vagrant$ sudo apt-get install -y curl
+vagrant$ curl -L https://www.opscode.com/chef/install.sh | sudo bash
+vagrant$ exit
+$ vagrant ssh-config | awk '/HostName/ {print $2}'
+$ vi ./Vagrantfile
+$ vagrant provision
 ```
 
 ### knife-solo
@@ -74,9 +101,9 @@ Example of node config.
 {
   "postfix": {
     "mail_type": "client",
-    "myhostname": "mail.example.info",
-    "mydomain": "example.info",
-    "myorigin": "mail.example.info",
+    "myhostname": "mail.example.com",
+    "mydomain": "example.com",
+    "myorigin": "mail.example.com",
     "smtp_use_tls": "no"
   },
   "postgresql": {
@@ -85,10 +112,10 @@ Example of node config.
     }
   },
   "gitlab": {
-    "host": "gl.example.info",
-    "url": "http://gl.example.info/",
-    "email_from": "gitlab@example.info",
-    "support_email": "support@example.info",
+    "host": "example.com",
+    "url": "http://example.com/",
+    "email_from": "gitlab@example.com",
+    "support_email": "support@example.com",
     "database_password": "datapass"
   },
   "run_list":[
@@ -101,7 +128,6 @@ Example of node config.
 
 
 ## Done!
-
 
 `http://localhost:8080/` or your server for your first GitLab login.
 
