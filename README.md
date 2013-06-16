@@ -89,7 +89,7 @@ $ echo 'cookbook "gitlab", github: "ogom/cookbook-gitlab"' >> ./Berksfile
 $ berks install --path ./cookbooks
 $ knife solo prepare vagrant@127.0.0.1 -p 2222 -i ~/.vagrant.d/insecure_private_key
 $ vi ./nodes/127.0.0.1.json
-$ knife solo cook vagrant@127.0.0.1 -p 2222 -i ~/.vagrant.d/insecure_private_key
+$ knife solo cook vagrant@127.0.0.1 -p 2222 -i ~/.vagrant.d/insecure_private_key --no-chef-check
 ```
 
 
@@ -139,10 +139,9 @@ admin@local.host
 ## Links
 
 * [GitLab Installation](https://github.com/gitlabhq/gitlabhq/blob/master/doc/install/installation.md)
-* [Generating SSH Keys](https://help.github.com/articles/generating-ssh-keys)
+* [Qiita document](http://qiita.com/items/6491a268bfc95d0a5be4)
 
 
 ## License 
-
 
 * MIT
