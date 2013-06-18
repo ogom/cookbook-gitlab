@@ -5,9 +5,12 @@ Chef to install The GitLab.
 
 * GitLab: 5.2.1
 * GitLab Shell: 1.5.0
-* Ruby: 1.9
-* Redis: 2.6
+* Ruby: 1.9.3
+* Redis: 2.6.13
 * Git: 1.7.12
+* Nginx: 1.1.19
+* PostgreSQL: 9.1.9
+* MySQL ... Not implemented yet
 
 ## Requirements
 
@@ -23,6 +26,8 @@ Chef to install The GitLab.
 ### Platform:
 
 * Ubuntu (12.04, 12.10)
+* CentOS ... Not implemented yet
+
 
 ## Attributes
 
@@ -139,7 +144,7 @@ admin@local.host
 ## Links
 
 * [GitLab Installation](https://github.com/gitlabhq/gitlabhq/blob/master/doc/install/installation.md)
-* [Qiita document](http://qiita.com/items/6491a268bfc95d0a5be4)
+* [Qiita Document](http://qiita.com/items/6491a268bfc95d0a5be4)
 
 
 ## License 

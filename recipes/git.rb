@@ -16,11 +16,11 @@ remote_file "#{Chef::Config['file_cache_path']}/git-#{git['version']}.zip" do
 end
 
 execute "Extracting and Building Git #{git['version']} from Source" do
-      cwd Chef::Config['file_cache_path']
   command <<-EOS
     unzip -q git-#{git['version']}.zip
     cd git-#{git['version']} && make prefix=#{git['prefix']} install
   EOS
+      cwd Chef::Config['file_cache_path']
   creates "#{git['prefix']}/bin/git"
    not_if "git --version | grep #{git['version']}"
 end

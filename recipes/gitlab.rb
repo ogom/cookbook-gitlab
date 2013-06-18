@@ -128,7 +128,6 @@ end
 execute "rake db:seed_fu" do
   command "sudo -u #{gitlab['user']} -H bundle exec rake db:seed_fu RAILS_ENV=production"
       cwd gitlab['path']
-     user "root"
    not_if {File.exists?(File.join(gitlab['home'], ".gitlab_seed"))}
 end
 
@@ -138,7 +137,7 @@ file File.join(gitlab['home'], ".gitlab_seed") do
   action :create
 end
 
-# Install Init Script
+## Install Init Script
 template "/etc/init.d/gitlab" do
     source "initd.erb"
       mode 0755
@@ -151,6 +150,12 @@ end
 ## Start Your GitLab Instance
 service "gitlab" do
   supports :start => true, :stop => true, :restart => true, :status => true
-    action :start
-    action << :enable
+    action :enable
+end
+
+file File.join(gitlab['home'], ".gitlab_start") do
+     owner gitlab['user']
+     group gitlab['group']
+    action :create_if_missing
+  notifies :start, "service[gitlab]"
 end
