@@ -3,14 +3,14 @@ GitLab Cookbook
 
 Chef to install The GitLab.
 
-* GitLab: 5.2.1
+* GitLab: 5.3.0
 * GitLab Shell: 1.5.0
 * Ruby: 1.9.3
 * Redis: 2.6.13
 * Git: 1.7.12
 * Nginx: 1.1.19
 * PostgreSQL: 9.1.9
-* MySQL ... Not implemented yet
+* MySQL: 5.5.31
 
 ## Requirements
 
@@ -116,18 +116,37 @@ Example of node config.
       "postgres": "psqlpass"
     }
   },
+  "mysql": {
+    "server_root_password": "rootpass",
+    "server_repl_password": "replpass",
+    "server_debian_password": "debianpass"
+  },
   "gitlab": {
     "host": "example.com",
     "url": "http://example.com/",
     "email_from": "gitlab@example.com",
     "support_email": "support@example.com",
-    "database_password": "datapass"
+    "database_adapter": "postgresql",
+    "database_password": "datapass",
+    "bundle_without": "development test mysql"
   },
   "run_list":[
     "postfix",
     "gitlab::initial",
     "gitlab::install"
   ]
+}
+```
+
+Database use mysql.
+
+```json
+{
+  "gitlab": {
+    "database_adapter": "mysql",
+    "database_password": "datapass",
+    "bundle_without": "development test postgres"
+  }
 }
 ```
 

@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: gitlab
-# Recipe:: database
+# Recipe:: database_postgresql
 #
 
 postgresql = node['postgresql']

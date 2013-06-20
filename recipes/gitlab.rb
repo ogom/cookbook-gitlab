@@ -78,7 +78,10 @@ end
 
 ### Configure Git global settings for git user, useful when editing via web
 bash "git config" do
-   code 'git config --global user.name "GitLab" && git config --global user.email "gitlab@localhost"'
+   code <<-EOS
+      git config --global user.name "GitLab"
+      git config --global user.email "#{gitlab['user']}@#{gitlab['host']}"
+    EOS
    user gitlab['user']
   group gitlab['group']
   environment('HOME' => gitlab['home'])
@@ -86,10 +89,11 @@ end
 
 ## Configure GitLab DB settings
 template File.join(gitlab['path'], "config", "database.yml") do
-  source "database.yml.erb"
+  source "database.yml.#{gitlab['database_adapter']}.erb"
     user gitlab['user']
    group gitlab['group']
   variables({
+        :user => gitlab['user'],
     :password => gitlab['database_password']
   })
 end
@@ -108,7 +112,7 @@ template File.join(gitlab['home'], ".gemrc") do
 end
 
 execute "bundle install" do
-  command "sudo -u #{gitlab['user']} -H #{gitlab['bundle_install']}"
+  command "sudo -u #{gitlab['user']} -H #{gitlab['bundle_install']} --without #{gitlab['bundle_without']}"
       cwd gitlab['path']
    action :nothing
 end

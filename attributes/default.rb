@@ -17,7 +17,7 @@ default['gitlab']['shell_path'] = "/home/git/gitlab-shell"
 
 # GitLab hq
 default['gitlab']['repository'] = "git://github.com/gitlabhq/gitlabhq.git"
-default['gitlab']['revision'] = "v5.2.1"
+default['gitlab']['revision'] = "v5.3.0"
 default['gitlab']['path'] = "/home/git/gitlab"
 
 # GitLab shell config
@@ -36,6 +36,6 @@ default['gitlab']['port'] = "80"
 default['gitlab']['email_from'] = "gitlab@localhost"
 default['gitlab']['support_email'] = "support@localhost"
 
-
 # Gems
-default['gitlab']['bundle_install'] = "bundle install --path=.bundle --deployment --without development test mysql"
+default['gitlab']['bundle_install'] = "bundle install --path=.bundle --deployment"
+default['gitlab']['bundle_without'] = "development test"
