@@ -140,16 +140,32 @@ Example of node config.
 
 Database use mysql.
 
+Set 'mysql' to database_adapter.  
+Set 'postgres' to bundle_without.  
+
 ```json
 {
+...
   "gitlab": {
     "database_adapter": "mysql",
-    "database_password": "datapass",
     "bundle_without": "development test postgres"
   }
 }
 ```
 
+### Update
+
+Add 'gitlab::update' to 'run_list'.  
+
+```json
+{
+...
+  "run_list":[
+    "gitlab::update",
+    "gitlab::install"
+  ]
+}
+```
 
 ## Done!
 

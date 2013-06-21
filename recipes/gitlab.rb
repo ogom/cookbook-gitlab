@@ -117,6 +117,7 @@ execute "bundle install" do
    action :nothing
 end
 
+### db:setup
 execute "rake db:setup" do
   command "sudo -u #{gitlab['user']} -H bundle exec rake db:setup RAILS_ENV=production"
       cwd gitlab['path']
@@ -129,6 +130,20 @@ file File.join(gitlab['home'], ".gitlab_setup") do
   action :create
 end
 
+### db:migrate
+execute "rake db:migrate" do
+  command "sudo -u #{gitlab['user']} -H bundle exec rake db:migrate RAILS_ENV=production"
+      cwd gitlab['path']
+   not_if {File.exists?(File.join(gitlab['home'], ".gitlab_migrate"))}
+end
+
+file File.join(gitlab['home'], ".gitlab_migrate") do
+   owner gitlab['user']
+   group gitlab['group']
+  action :create
+end
+
+### db:seed_fu
 execute "rake db:seed_fu" do
   command "sudo -u #{gitlab['user']} -H bundle exec rake db:seed_fu RAILS_ENV=production"
       cwd gitlab['path']
