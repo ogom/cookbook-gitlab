@@ -21,7 +21,7 @@ development:
   reconnect: false
   database: gitlabhq_development
   pool: 5
-  username: root
+  username: <%= @user %>
   password: <%= @password %>
   # socket: /tmp/mysql.sock
 
@@ -34,6 +34,6 @@ test: &test
   reconnect: false
   database: gitlabhq_test
   pool: 5
-  username: root
+  username: <%= @user %>
   password: <%= @password %>
   # socket: /tmp/mysql.sock

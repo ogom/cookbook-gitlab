@@ -22,8 +22,8 @@ PID_PATH="$APP_ROOT/tmp/pids"
 SOCKET_PATH="$APP_ROOT/tmp/sockets"
 WEB_SERVER_PID="$PID_PATH/puma.pid"
 SIDEKIQ_PID="$PID_PATH/sidekiq.pid"
-STOP_SIDEKIQ="RAILS_ENV=production bundle exec rake sidekiq:stop"
-START_SIDEKIQ="RAILS_ENV=production bundle exec rake sidekiq:start"
+STOP_SIDEKIQ="RAILS_ENV=<%= @env %> bundle exec rake sidekiq:stop"
+START_SIDEKIQ="RAILS_ENV=<%= @env %> bundle exec rake sidekiq:start"
 NAME="gitlab"
 DESC="GitLab service"
 
@@ -52,7 +52,7 @@ start() {
   else
     if [ `whoami` = root ]; then
       execute "rm $SOCKET_PATH/gitlab.socket"
-      execute "RAILS_ENV=production bundle exec puma $DAEMON_OPTS"
+      execute "RAILS_ENV=<%= @env %> bundle exec puma $DAEMON_OPTS"
       execute "mkdir -p $PID_PATH && $START_SIDEKIQ  > /dev/null  2>&1 &"
       echo "$DESC started"
     fi

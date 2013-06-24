@@ -23,15 +23,15 @@ postgresql_database_user gitlab['user'] do
       action :create
 end
 
-## Create the GitLab production database & grant all privileges on database
-postgresql_database "gitlabhq_production" do
+## Create the GitLab database & grant all privileges on database
+postgresql_database "gitlabhq_#{gitlab['env']}" do
   connection postgresql_connexion
       action :create
 end
 
 postgresql_database_user gitlab['user'] do
      connection postgresql_connexion
-  database_name "gitlabhq_production"
+  database_name "gitlabhq_#{gitlab['env']}"
        password gitlab['database_password']
          action :grant
 end

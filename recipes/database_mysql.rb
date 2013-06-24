@@ -23,8 +23,8 @@ mysql_database_user gitlab['user'] do
       action :create
 end
 
-## Create the GitLab production database & grant all privileges on database
-mysql_database "gitlabhq_production" do
+## Create the GitLab database & grant all privileges on database
+mysql_database "gitlabhq_#{gitlab['env']}" do
   connection mysql_connexion
       action :create
 end
@@ -32,7 +32,7 @@ end
 mysql_database_user gitlab['user'] do
      connection mysql_connexion
        password gitlab['database_password']
-  database_name "gitlabhq_production"
+  database_name "gitlabhq_#{gitlab['env']}"
            host 'localhost'
      privileges [:select, :update, :insert, :delete, :create, :drop, :index, :alter]
          action :grant

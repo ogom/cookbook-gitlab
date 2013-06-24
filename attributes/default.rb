@@ -38,4 +38,5 @@ default['gitlab']['support_email'] = "support@localhost"
 
 # Gems
 default['gitlab']['bundle_install'] = "bundle install --path=.bundle --deployment"
-default['gitlab']['bundle_without'] = "development test"
+default['gitlab']['bundle_without'] = "development test production"
+default['gitlab']['env'] = "production"

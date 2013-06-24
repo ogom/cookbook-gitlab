@@ -72,7 +72,8 @@ template File.join(gitlab['path'], "config", "puma.rb") do
     user gitlab['user']
    group gitlab['group']
   variables({
-    :path => gitlab['path']
+    :path => gitlab['path'],
+    :env => gitlab['env']
   })
 end
 
@@ -80,7 +81,7 @@ end
 bash "git config" do
    code <<-EOS
       git config --global user.name "GitLab"
-      git config --global user.email "#{gitlab['user']}@#{gitlab['host']}"
+      git config --global user.email "gitlab@#{gitlab['host']}"
     EOS
    user gitlab['user']
   group gitlab['group']
@@ -119,7 +120,7 @@ end
 
 ### db:setup
 execute "rake db:setup" do
-  command "sudo -u #{gitlab['user']} -H bundle exec rake db:setup RAILS_ENV=production"
+  command "sudo -u #{gitlab['user']} -H bundle exec rake db:setup RAILS_ENV=#{gitlab['env']}"
       cwd gitlab['path']
    not_if {File.exists?(File.join(gitlab['home'], ".gitlab_setup"))}
 end
@@ -132,7 +133,7 @@ end
 
 ### db:migrate
 execute "rake db:migrate" do
-  command "sudo -u #{gitlab['user']} -H bundle exec rake db:migrate RAILS_ENV=production"
+  command "sudo -u #{gitlab['user']} -H bundle exec rake db:migrate RAILS_ENV=#{gitlab['env']}"
       cwd gitlab['path']
    not_if {File.exists?(File.join(gitlab['home'], ".gitlab_migrate"))}
 end
@@ -145,7 +146,7 @@ end
 
 ### db:seed_fu
 execute "rake db:seed_fu" do
-  command "sudo -u #{gitlab['user']} -H bundle exec rake db:seed_fu RAILS_ENV=production"
+  command "sudo -u #{gitlab['user']} -H bundle exec rake db:seed_fu RAILS_ENV=#{gitlab['env']}"
       cwd gitlab['path']
    not_if {File.exists?(File.join(gitlab['home'], ".gitlab_seed"))}
 end
@@ -162,7 +163,8 @@ template "/etc/init.d/gitlab" do
       mode 0755
   variables({
     :path => gitlab['path'],
-    :user => gitlab['user']
+    :user => gitlab['user'],
+    :env => gitlab['env']
   })
 end
 

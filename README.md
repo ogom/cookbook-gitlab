@@ -138,10 +138,10 @@ Example of node config.
 }
 ```
 
-Database use mysql.
+### Database use mysql.
 
-Set 'mysql' to database_adapter.  
-Set 'postgres' to bundle_without.  
+Set `mysql` to `database_adapter`.  
+Set `postgres` to `bundle_without`.  
 
 ```json
 {
@@ -153,9 +153,9 @@ Set 'postgres' to bundle_without.
 }
 ```
 
-### Update
+### GitLab Update
 
-Add 'gitlab::update' to 'run_list'.  
+Add `gitlab::update` to `run_list`.  
 
 ```json
 {
