@@ -14,7 +14,7 @@ end
 ## Site Configuration
 template "/etc/nginx/sites-available/gitlab" do
   source "nginx.erb"
-    mode 0644
+  mode 0644
   variables({
     :path => gitlab['path'],
     :host => gitlab['host'],

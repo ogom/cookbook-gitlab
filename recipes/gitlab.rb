@@ -9,27 +9,27 @@ gitlab = node['gitlab']
 ## Clone the Source
 git gitlab['path'] do
   repository gitlab['repository']
-    revision gitlab['revision']
-        user gitlab['user']
-       group gitlab['group']
-      action :sync
+  revision gitlab['revision']
+  user gitlab['user']
+  group gitlab['group']
+  action :sync
 end
 
 ## Configure it
 ### Copy the example GitLab config
 template File.join(gitlab['path'], 'config', 'gitlab.yml') do
   source "gitlab.yml.erb"
-    user gitlab['user']
-   group gitlab['group']
+  user gitlab['user']
+  group gitlab['group']
   variables({
-               :host => gitlab['host'],
-               :port => gitlab['port'],
-               :user => gitlab['user'],
-         :email_from => gitlab['email_from'],
-      :support_email => gitlab['support_email'],
+    :host => gitlab['host'],
+    :port => gitlab['port'],
+    :user => gitlab['user'],
+    :email_from => gitlab['email_from'],
+    :support_email => gitlab['support_email'],
     :satellites_path => gitlab['satellites_path'],
-         :repos_path => gitlab['repos_path'],
-         :shell_path => gitlab['shell_path']
+    :repos_path => gitlab['repos_path'],
+    :shell_path => gitlab['shell_path']
   })
 end
 
@@ -38,7 +38,7 @@ end
   directory File.join(gitlab['path'], path) do
     owner gitlab['user']
     group gitlab['group']
-     mode 0755 
+    mode 0755 
   end
 end
 
@@ -53,7 +53,7 @@ end
   directory File.join(gitlab['path'], path) do
     owner gitlab['user']
     group gitlab['group']
-     mode 0755 
+    mode 0755 
   end
 end
 
@@ -62,15 +62,15 @@ end
   directory File.join(gitlab['path'], path) do
     owner gitlab['user']
     group gitlab['group']
-     mode 0755
+    mode 0755
   end
 end
 
 ### Copy the example Puma config
 template File.join(gitlab['path'], "config", "puma.rb") do
   source "puma.rb.erb"
-    user gitlab['user']
-   group gitlab['group']
+  user gitlab['user']
+  group gitlab['group']
   variables({
     :path => gitlab['path'],
     :env => gitlab['env']
@@ -79,11 +79,11 @@ end
 
 ### Configure Git global settings for git user, useful when editing via web
 bash "git config" do
-   code <<-EOS
-      git config --global user.name "GitLab"
-      git config --global user.email "gitlab@#{gitlab['host']}"
-    EOS
-   user gitlab['user']
+  code <<-EOS
+    git config --global user.name "GitLab"
+    git config --global user.email "gitlab@#{gitlab['host']}"
+  EOS
+  user gitlab['user']
   group gitlab['group']
   environment('HOME' => gitlab['home'])
 end
@@ -91,10 +91,10 @@ end
 ## Configure GitLab DB settings
 template File.join(gitlab['path'], "config", "database.yml") do
   source "database.yml.#{gitlab['database_adapter']}.erb"
-    user gitlab['user']
-   group gitlab['group']
+  user gitlab['user']
+  group gitlab['group']
   variables({
-        :user => gitlab['user'],
+    :user => gitlab['user'],
     :password => gitlab['database_password']
   })
 end
@@ -106,61 +106,61 @@ gem_package "charlock_holmes" do
 end
 
 template File.join(gitlab['home'], ".gemrc") do
-    source "gemrc.erb"
-      user gitlab['user']
-     group gitlab['group']
+  source "gemrc.erb"
+  user gitlab['user']
+  group gitlab['group']
   notifies :run, "execute[bundle install]", :immediately
 end
 
 execute "bundle install" do
   command "sudo -u #{gitlab['user']} -H #{gitlab['bundle_install']} --without #{gitlab['bundle_without']}"
-      cwd gitlab['path']
-   action :nothing
+  cwd gitlab['path']
+  action :nothing
 end
 
 ### db:setup
 execute "rake db:setup" do
   command "sudo -u #{gitlab['user']} -H bundle exec rake db:setup RAILS_ENV=#{gitlab['env']}"
-      cwd gitlab['path']
-   not_if {File.exists?(File.join(gitlab['home'], ".gitlab_setup"))}
+  cwd gitlab['path']
+  not_if {File.exists?(File.join(gitlab['home'], ".gitlab_setup"))}
 end
 
 file File.join(gitlab['home'], ".gitlab_setup") do
-   owner gitlab['user']
-   group gitlab['group']
+  owner gitlab['user']
+  group gitlab['group']
   action :create
 end
 
 ### db:migrate
 execute "rake db:migrate" do
   command "sudo -u #{gitlab['user']} -H bundle exec rake db:migrate RAILS_ENV=#{gitlab['env']}"
-      cwd gitlab['path']
-   not_if {File.exists?(File.join(gitlab['home'], ".gitlab_migrate"))}
+  cwd gitlab['path']
+  not_if {File.exists?(File.join(gitlab['home'], ".gitlab_migrate"))}
 end
 
 file File.join(gitlab['home'], ".gitlab_migrate") do
-   owner gitlab['user']
-   group gitlab['group']
+  owner gitlab['user']
+  group gitlab['group']
   action :create
 end
 
 ### db:seed_fu
 execute "rake db:seed_fu" do
   command "sudo -u #{gitlab['user']} -H bundle exec rake db:seed_fu RAILS_ENV=#{gitlab['env']}"
-      cwd gitlab['path']
-   not_if {File.exists?(File.join(gitlab['home'], ".gitlab_seed"))}
+  cwd gitlab['path']
+  not_if {File.exists?(File.join(gitlab['home'], ".gitlab_seed"))}
 end
 
 file File.join(gitlab['home'], ".gitlab_seed") do
-   owner gitlab['user']
-   group gitlab['group']
+  owner gitlab['user']
+  group gitlab['group']
   action :create
 end
 
 ## Install Init Script
 template "/etc/init.d/gitlab" do
-    source "initd.erb"
-      mode 0755
+  source "initd.erb"
+  mode 0755
   variables({
     :path => gitlab['path'],
     :user => gitlab['user'],
@@ -171,12 +171,12 @@ end
 ## Start Your GitLab Instance
 service "gitlab" do
   supports :start => true, :stop => true, :restart => true, :status => true
-    action :enable
+  action :enable
 end
 
 file File.join(gitlab['home'], ".gitlab_start") do
-     owner gitlab['user']
-     group gitlab['group']
-    action :create_if_missing
+  owner gitlab['user']
+  group gitlab['group']
+  action :create_if_missing
   notifies :start, "service[gitlab]"
 end

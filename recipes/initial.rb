@@ -34,16 +34,16 @@ end
 ## Install the Bundler Gem:
 gem_package "bundler" do
   gem_binary "/usr/local/bin/gem"
-     options "--no-ri --no-rdoc"
+  options "--no-ri --no-rdoc"
 end
 
 
 # 3. System Users
 ## Create user for Gitlab.
 user gitlab['user'] do
-   comment "GitLab"
-      home gitlab['home']
-     shell "/bin/bash"
+  comment "GitLab"
+  home gitlab['home']
+  shell "/bin/bash"
   supports :manage_home => true
 end
 
