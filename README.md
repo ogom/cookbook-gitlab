@@ -127,8 +127,7 @@ Example of node config.
     "email_from": "gitlab@example.com",
     "support_email": "support@example.com",
     "database_adapter": "postgresql",
-    "database_password": "datapass",
-    "bundle_without": "development test mysql"
+    "database_password": "datapass"
   },
   "run_list":[
     "postfix",
@@ -141,14 +140,12 @@ Example of node config.
 ### Database use mysql.
 
 Set `mysql` to `database_adapter`.  
-Set `postgres` to `bundle_without`.  
 
 ```json
 {
 ...
   "gitlab": {
-    "database_adapter": "mysql",
-    "bundle_without": "development test postgres"
+    "database_adapter": "mysql"
   }
 }
 ```

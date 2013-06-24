@@ -89,8 +89,7 @@ Vagrant.configure("2") do |config|
       },
       :gitlab => {
         :database_adapter => "postgresql",
-        :database_password => "datapass",
-        :bundle_without => "development test mysql"
+        :database_password => "datapass"
       }
     }
     chef.run_list = [
