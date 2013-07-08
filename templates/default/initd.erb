@@ -39,7 +39,7 @@ check_pid(){
 }
 
 execute() {
-  sudo -u $APP_USER -H bash -l -c "$1"
+  sudo -u $APP_USER -H bash -l -c "PATH=$PATH:/usr/local/bin && $1"
 }
 
 start() {

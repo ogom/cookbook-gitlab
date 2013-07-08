@@ -1,8 +1,16 @@
 # Package
-default['gitlab']['packages'] = %w{
-  build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev
-  curl openssh-server checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev
-}
+if platform_family?("rhel")
+  packages = %w{
+    libicu-devel
+  }
+else
+  packages = %w{
+    build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev
+    curl openssh-server checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev
+  }
+end
+
+default['gitlab']['packages'] = packages
 default['gitlab']['ruby'] = "1.9.3-p392"
 
 # User

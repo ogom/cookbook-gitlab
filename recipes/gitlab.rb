@@ -130,15 +130,19 @@ else
 end
 
 execute "bundle install" do
-  command "sudo -u #{gitlab['user']} -H #{gitlab['bundle_install']} --without #{bundle_without.join(" ")}"
+  command "#{gitlab['bundle_install']} --without #{bundle_without.join(" ")}"
   cwd gitlab['path']
+  user gitlab['user']
+  group gitlab['group']
   action :nothing
 end
 
 ### db:setup
 execute "rake db:setup" do
-  command "sudo -u #{gitlab['user']} -H bundle exec rake db:setup RAILS_ENV=#{gitlab['env']}"
+  command "bundle exec rake db:setup RAILS_ENV=#{gitlab['env']}"
   cwd gitlab['path']
+  user gitlab['user']
+  group gitlab['group']
   not_if {File.exists?(File.join(gitlab['home'], ".gitlab_setup"))}
 end
 
@@ -150,8 +154,10 @@ end
 
 ### db:migrate
 execute "rake db:migrate" do
-  command "sudo -u #{gitlab['user']} -H bundle exec rake db:migrate RAILS_ENV=#{gitlab['env']}"
+  command "bundle exec rake db:migrate RAILS_ENV=#{gitlab['env']}"
   cwd gitlab['path']
+  user gitlab['user']
+  group gitlab['group']
   not_if {File.exists?(File.join(gitlab['home'], ".gitlab_migrate"))}
 end
 
@@ -163,8 +169,10 @@ end
 
 ### db:seed_fu
 execute "rake db:seed_fu" do
-  command "sudo -u #{gitlab['user']} -H bundle exec rake db:seed_fu RAILS_ENV=#{gitlab['env']}"
+  command "bundle exec rake db:seed_fu RAILS_ENV=#{gitlab['env']}"
   cwd gitlab['path']
+  user gitlab['user']
+  group gitlab['group']
   not_if {File.exists?(File.join(gitlab['home'], ".gitlab_seed"))}
 end
 

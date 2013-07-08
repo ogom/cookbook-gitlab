@@ -26,7 +26,7 @@ Chef to install The GitLab.
 ### Platform:
 
 * Ubuntu (12.04, 12.10)
-* CentOS ... Not implemented yet
+* CentOS (6.4)
 
 
 ## Attributes
@@ -55,7 +55,6 @@ $ cd ./gitlab/
 $ vi ./Vagrantfile 
 $ vagrant up
 $ vagrant ssh
-vagrant$ sudo apt-get install -y curl
 vagrant$ curl -L https://www.opscode.com/chef/install.sh | sudo bash
 vagrant$ exit
 $ vagrant provision
@@ -74,7 +73,6 @@ $ cp ./example/Vagrantfile_aws ./Vagrantfile
 $ vi ./Vagrantfile
 $ vagrant up --provider=aws
 $ vagrant ssh
-vagrant$ sudo apt-get install -y curl
 vagrant$ curl -L https://www.opscode.com/chef/install.sh | sudo bash
 vagrant$ exit
 $ vagrant ssh-config | awk '/HostName/ {print $2}'
