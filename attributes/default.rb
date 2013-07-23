@@ -25,7 +25,7 @@ default['gitlab']['shell_path'] = "/home/git/gitlab-shell"
 
 # GitLab hq
 default['gitlab']['repository'] = "git://github.com/gitlabhq/gitlabhq.git"
-default['gitlab']['revision'] = "v5.3.0"
+default['gitlab']['revision'] = "v5.4.0"
 default['gitlab']['path'] = "/home/git/gitlab"
 
 # GitLab shell config
