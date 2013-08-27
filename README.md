@@ -20,6 +20,7 @@ Chef to install The GitLab.
 ### Vagrant Plugin
 
 * [vagrant-berkshelf](https://github.com/RiotGames/vagrant-berkshelf)
+* [vagrant-omnibus](https://github.com/schisamo/vagrant-omnibus)
 * [vagrant-aws](https://github.com/mitchellh/vagrant-aws)
 
 
@@ -65,6 +66,7 @@ $ vagrant provision
 ```bash
 $ gem install berkshelf
 $ vagrant plugin install vagrant-berkshelf
+$ vagrant plugin install vagrant-omnibus
 $ vagrant plugin install vagrant-aws
 $ vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
 $ git clone git://github.com/ogom/cookbook-gitlab ./gitlab
