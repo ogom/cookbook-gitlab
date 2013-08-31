@@ -55,10 +55,6 @@ $ git clone git://github.com/ogom/cookbook-gitlab ./gitlab
 $ cd ./gitlab/
 $ vi ./Vagrantfile 
 $ vagrant up
-$ vagrant ssh
-vagrant$ curl -L https://www.opscode.com/chef/install.sh | sudo bash
-vagrant$ exit
-$ vagrant provision
 ```
 
 #### Amazon Web Services
