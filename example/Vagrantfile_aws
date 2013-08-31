@@ -19,6 +19,7 @@ Vagrant.configure("2") do |config|
     override.ssh.private_key_path = "~/.ssh/vagrant_aws.pem"
   end
 
+  config.omnibus.chef_version = :latest
   config.berkshelf.enabled = true
 
   config.vm.provision :chef_solo do |chef|

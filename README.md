@@ -51,14 +51,11 @@ Chef to install The GitLab.
 ```bash
 $ gem install berkshelf
 $ vagrant plugin install vagrant-berkshelf
+$ vagrant plugin install vagrant-omnibus
 $ git clone git://github.com/ogom/cookbook-gitlab ./gitlab
 $ cd ./gitlab/
 $ vi ./Vagrantfile 
 $ vagrant up
-$ vagrant ssh
-vagrant$ curl -L https://www.opscode.com/chef/install.sh | sudo bash
-vagrant$ exit
-$ vagrant provision
 ```
 
 #### Amazon Web Services
@@ -74,9 +71,6 @@ $ cd ./gitlab/
 $ cp ./example/Vagrantfile_aws ./Vagrantfile
 $ vi ./Vagrantfile
 $ vagrant up --provider=aws
-$ vagrant ssh
-vagrant$ curl -L https://www.opscode.com/chef/install.sh | sudo bash
-vagrant$ exit
 $ vagrant ssh-config | awk '/HostName/ {print $2}'
 $ vi ./Vagrantfile
 $ vagrant provision
