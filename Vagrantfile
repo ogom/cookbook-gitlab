@@ -53,7 +53,8 @@ Vagrant.configure("2") do |config|
   config.ssh.max_tries = 40
   config.ssh.timeout   = 120
 
-  # Install the latest version of Chef by the Vagrant Omnibus
+  # Install the version of Chef by the Vagrant Omnibus
+  # version is :latest or "11.4.0"
   config.omnibus.chef_version = :latest
 
   # The path to the Berksfile to use with Vagrant Berkshelf

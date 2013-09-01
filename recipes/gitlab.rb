@@ -66,14 +66,13 @@ end
   end
 end
 
-### Copy the example Puma config
-template File.join(gitlab['path'], "config", "puma.rb") do
-  source "puma.rb.erb"
+### Copy the example Unicorn config
+template File.join(gitlab['path'], "config", "unicorn.rb") do
+  source "unicorn.rb.erb"
   user gitlab['user']
   group gitlab['group']
   variables({
-    :path => gitlab['path'],
-    :env => gitlab['env']
+    :path => gitlab['path']
   })
 end
 
@@ -82,6 +81,7 @@ bash "git config" do
   code <<-EOS
     git config --global user.name "GitLab"
     git config --global user.email "gitlab@#{gitlab['host']}"
+    git config --global core.autocrlf input
   EOS
   user gitlab['user']
   group gitlab['group']
@@ -117,8 +117,10 @@ bundle_without = []
 case gitlab['database_adapter']
 when 'mysql'
   bundle_without << 'postgres'
+  bundle_without << 'aws'
 when 'postgresql'
   bundle_without << 'mysql'
+  bundle_without << 'aws'
 end
 
 case gitlab['env']
@@ -130,7 +132,10 @@ else
 end
 
 execute "bundle install" do
-  command "#{gitlab['bundle_install']} --without #{bundle_without.join(" ")}"
+  command <<-EOS
+    PATH="/usr/local/bin:$PATH"
+    #{gitlab['bundle_install']} --without #{bundle_without.join(" ")}
+  EOS
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
@@ -139,7 +144,10 @@ end
 
 ### db:setup
 execute "rake db:setup" do
-  command "bundle exec rake db:setup RAILS_ENV=#{gitlab['env']}"
+  command <<-EOS
+    PATH="/usr/local/bin:$PATH"
+    bundle exec rake db:setup RAILS_ENV=#{gitlab['env']}
+  EOS
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
@@ -154,7 +162,10 @@ end
 
 ### db:migrate
 execute "rake db:migrate" do
-  command "bundle exec rake db:migrate RAILS_ENV=#{gitlab['env']}"
+  command <<-EOS
+    PATH="/usr/local/bin:$PATH"
+    bundle exec rake db:migrate RAILS_ENV=#{gitlab['env']}
+  EOS
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']
@@ -169,7 +180,10 @@ end
 
 ### db:seed_fu
 execute "rake db:seed_fu" do
-  command "bundle exec rake db:seed_fu RAILS_ENV=#{gitlab['env']}"
+  command <<-EOS
+    PATH="/usr/local/bin:$PATH"
+    bundle exec rake db:seed_fu RAILS_ENV=#{gitlab['env']}
+  EOS
   cwd gitlab['path']
   user gitlab['user']
   group gitlab['group']

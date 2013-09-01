@@ -35,7 +35,10 @@ end
 
 ## Do setup
 execute "gitlab-shell install" do
-  command "./bin/install"
+  command <<-EOS
+    PATH="/usr/local/bin:$PATH"
+    ./bin/install
+  EOS
   cwd gitlab['shell_path']
   user gitlab['user']
   group gitlab['group']

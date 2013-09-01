@@ -3,9 +3,9 @@ GitLab Cookbook
 
 Chef to install The GitLab.
 
-* GitLab: 5.4.0
-* GitLab Shell: 1.5.0
-* Ruby: 1.9.3
+* GitLab: 6.0.0
+* GitLab Shell: 1.7.0
+* Ruby: 2.0.0
 * Redis: 2.6.13
 * Git: 1.7.12
 * Nginx: 1.1.19
@@ -54,11 +54,12 @@ $ vagrant plugin install vagrant-berkshelf
 $ vagrant plugin install vagrant-omnibus
 $ git clone git://github.com/ogom/cookbook-gitlab ./gitlab
 $ cd ./gitlab/
-$ vi ./Vagrantfile 
 $ vagrant up
 ```
 
 #### Amazon Web Services
+
+Create instance.
 
 ```bash
 $ gem install berkshelf
@@ -69,10 +70,14 @@ $ vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dumm
 $ git clone git://github.com/ogom/cookbook-gitlab ./gitlab
 $ cd ./gitlab/
 $ cp ./example/Vagrantfile_aws ./Vagrantfile
-$ vi ./Vagrantfile
 $ vagrant up --provider=aws
+```
+
+HostName setting.
+
+```bash
 $ vagrant ssh-config | awk '/HostName/ {print $2}'
-$ vi ./Vagrantfile
+$ editor ./Vagrantfile
 $ vagrant provision
 ```
 
@@ -87,7 +92,7 @@ $ cd ./chef-repo/
 $ echo 'cookbook "gitlab", github: "ogom/cookbook-gitlab"' >> ./Berksfile
 $ berks install --path ./cookbooks
 $ knife solo prepare vagrant@127.0.0.1 -p 2222 -i ~/.vagrant.d/insecure_private_key
-$ vi ./nodes/127.0.0.1.json
+$ editor ./nodes/127.0.0.1.json
 $ knife solo cook vagrant@127.0.0.1 -p 2222 -i ~/.vagrant.d/insecure_private_key --no-chef-check
 ```
 
@@ -153,6 +158,7 @@ Add `gitlab::update` to `run_list`.
 ...
   "run_list":[
     "gitlab::update",
+    "gitlab::initial",
     "gitlab::install"
   ]
 }

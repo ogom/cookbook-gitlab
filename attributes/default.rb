@@ -6,12 +6,12 @@ if platform_family?("rhel")
 else
   packages = %w{
     build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev
-    curl openssh-server checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev
+    curl openssh-server checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev python-docutils
   }
 end
 
 default['gitlab']['packages'] = packages
-default['gitlab']['ruby'] = "1.9.3-p392"
+default['gitlab']['ruby'] = "2.0.0-p247"
 
 # User
 default['gitlab']['user'] = "git"
@@ -20,12 +20,12 @@ default['gitlab']['home'] = "/home/git"
 
 # GitLab shell
 default['gitlab']['shell_repository'] = "git://github.com/gitlabhq/gitlab-shell.git"
-default['gitlab']['shell_revision'] = "v1.5.0"
+default['gitlab']['shell_revision'] = "v1.7.0"
 default['gitlab']['shell_path'] = "/home/git/gitlab-shell"
 
 # GitLab hq
 default['gitlab']['repository'] = "git://github.com/gitlabhq/gitlabhq.git"
-default['gitlab']['revision'] = "v5.4.0"
+default['gitlab']['revision'] = "6-0-stable"
 default['gitlab']['path'] = "/home/git/gitlab"
 
 # GitLab shell config

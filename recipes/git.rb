@@ -11,7 +11,7 @@ end
 
 remote_file "#{Chef::Config['file_cache_path']}/git-#{git['version']}.zip" do
   source git['url']
-  mode 00644
+  mode 0644
   not_if "test -f #{Chef::Config['file_cache_path']}/git-#{git['version']}.zip"
 end
 

@@ -50,10 +50,6 @@ Vagrant.configure("2") do |config|
         :database_password => "datapass"
       }
     }
-    chef.run_list = [
-      "postfix",
-      "gitlab::initial",
-      "gitlab::install"
-    ]
+    chef.run_list = []
   end
 end
