@@ -5,6 +5,9 @@
 
 gitlab = node['gitlab']
 
+# Merge environmental variables
+gitlab = gitlab.merge(gitlab[gitlab['env']])
+
 # 4. GitLab shell
 ## Clone gitlab shell
 git gitlab['shell_path'] do
@@ -43,4 +46,10 @@ execute "gitlab-shell install" do
   user gitlab['user']
   group gitlab['group']
   action :nothing
+end
+
+# Symlink gitlab-shell to vagrant home, so that sidekiq can use gitlab shell commands
+link "#{gitlab['home']}/gitlab-shell" do
+  to gitlab['shell_path']
+  not_if { File.exists?("#{gitlab['home']}/gitlab-shell") }
 end
