@@ -14,11 +14,11 @@ default['gitlab']['packages'] = packages
 default['gitlab']['ruby'] = "2.0.0-p247"
 
 # GitLab shell
-default['gitlab']['shell_repository'] = "git://github.com/gitlabhq/gitlab-shell.git"
+default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
 default['gitlab']['shell_revision'] = "v1.7.1"
 
 # GitLab hq
-default['gitlab']['repository'] = "git://github.com/gitlabhq/gitlabhq.git"
+default['gitlab']['repository'] = "https://github.com/gitlabhq/gitlabhq.git"
 
 # GitLab shell config
 default['gitlab']['url'] = "http://localhost:8080/"
