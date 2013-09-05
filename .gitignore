@@ -15,3 +15,8 @@ bin/*
 
 .kitchen/
 .kitchen.local.yml
+
+/gitlab
+/gitlab-shell
+/gitlab-satellites
+/repositories

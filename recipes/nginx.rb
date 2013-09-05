@@ -5,6 +5,9 @@
 
 gitlab = node['gitlab']
 
+# Merge environmental variables
+gitlab = gitlab.merge(gitlab[gitlab['env']])
+
 # 7. Nginx
 ## Installation
 package "nginx" do 

@@ -13,31 +13,21 @@ end
 default['gitlab']['packages'] = packages
 default['gitlab']['ruby'] = "2.0.0-p247"
 
-# User
-default['gitlab']['user'] = "git"
-default['gitlab']['group'] = "git"
-default['gitlab']['home'] = "/home/git"
-
 # GitLab shell
 default['gitlab']['shell_repository'] = "git://github.com/gitlabhq/gitlab-shell.git"
-default['gitlab']['shell_revision'] = "v1.7.0"
-default['gitlab']['shell_path'] = "/home/git/gitlab-shell"
+default['gitlab']['shell_revision'] = "v1.7.1"
 
 # GitLab hq
 default['gitlab']['repository'] = "git://github.com/gitlabhq/gitlabhq.git"
-default['gitlab']['revision'] = "6-0-stable"
-default['gitlab']['path'] = "/home/git/gitlab"
 
 # GitLab shell config
-default['gitlab']['url'] = "http://localhost/"
-default['gitlab']['repos_path'] = "/home/git/repositories"
+default['gitlab']['url'] = "http://localhost:8080/"
 default['gitlab']['redis_path'] = "/usr/local/bin/redis-cli"
 default['gitlab']['redis_host'] = "127.0.0.1"
 default['gitlab']['redis_port'] = "6379"
 default['gitlab']['namespace']  = "resque:gitlab"
 
 # GitLab hq config
-default['gitlab']['satellites_path'] = "/home/git/gitlab-satellites"
 default['gitlab']['git_path'] = "/usr/local/bin/git"
 default['gitlab']['host'] = "localhost"
 default['gitlab']['port'] = "80"
@@ -46,4 +36,3 @@ default['gitlab']['support_email'] = "support@localhost"
 
 # Gems
 default['gitlab']['bundle_install'] = "bundle install --path=.bundle --deployment"
-default['gitlab']['env'] = "production"

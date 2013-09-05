@@ -5,6 +5,9 @@
 
 gitlab = node['gitlab']
 
+# Merge environmental variables
+gitlab = gitlab.merge(gitlab[gitlab['env']])
+
 # Stop server
 service "gitlab" do
   action :stop
