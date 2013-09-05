@@ -3,7 +3,7 @@
 # App Version: 5.0
 
 upstream gitlab {
-  server unix://<%= @path %>/tmp/sockets/gitlab.socket;
+  server unix:/<%= @path %>/tmp/sockets/gitlab.socket;
 }
 
 server {

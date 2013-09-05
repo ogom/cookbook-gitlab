@@ -5,6 +5,9 @@
 
 gitlab = node['gitlab']
 
+# Merge environmental variables
+gitlab = gitlab.merge(gitlab[gitlab['env']])
+
 # 6. GitLab
 ## Clone the Source
 git gitlab['path'] do
@@ -142,80 +145,91 @@ execute "bundle install" do
   action :nothing
 end
 
-### db:setup
-execute "rake db:setup" do
-  command <<-EOS
-    PATH="/usr/local/bin:$PATH"
-    bundle exec rake db:setup RAILS_ENV=#{gitlab['env']}
-  EOS
-  cwd gitlab['path']
-  user gitlab['user']
-  group gitlab['group']
-  not_if {File.exists?(File.join(gitlab['home'], ".gitlab_setup"))}
+gitlab['environments'].each do |environment|
+  ### db:setup
+  file_setup = File.join(gitlab['home'], ".gitlab_setup_#{environment}")
+  execute "rake db:setup" do
+    command <<-EOS
+      PATH="/usr/local/bin:$PATH"
+      bundle exec rake db:setup RAILS_ENV=#{environment}
+    EOS
+    cwd gitlab['path']
+    user gitlab['user']
+    group gitlab['group']
+    not_if {File.exists?(file_setup)}
+  end
+
+  file file_setup do
+    owner gitlab['user']
+    group gitlab['group']
+    action :create
+  end
+
+  ### db:migrate
+  file_migrate = File.join(gitlab['home'], ".gitlab_migrate_#{environment}")
+  execute "rake db:migrate" do
+    command <<-EOS
+      PATH="/usr/local/bin:$PATH"
+      bundle exec rake db:migrate RAILS_ENV=#{environment}
+    EOS
+    cwd gitlab['path']
+    user gitlab['user']
+    group gitlab['group']
+    not_if {File.exists?(file_migrate)}
+  end
+
+  file file_migrate do
+    owner gitlab['user']
+    group gitlab['group']
+    action :create
+  end
+
+  ### db:seed_fu
+  file_seed = File.join(gitlab['home'], ".gitlab_seed_#{environment}")
+  execute "rake db:seed_fu" do
+    command <<-EOS
+      PATH="/usr/local/bin:$PATH"
+      bundle exec rake db:seed_fu RAILS_ENV=#{environment}
+    EOS
+    cwd gitlab['path']
+    user gitlab['user']
+    group gitlab['group']
+    not_if {File.exists?(file_seed)}
+  end
+
+  file file_seed do
+    owner gitlab['user']
+    group gitlab['group']
+    action :create
+  end
 end
 
-file File.join(gitlab['home'], ".gitlab_setup") do
-  owner gitlab['user']
-  group gitlab['group']
-  action :create
-end
+case gitlab['env']
+when 'production'
+  ## Install Init Script
+  template "/etc/init.d/gitlab" do
+    source "initd.erb"
+    mode 0755
+    variables({
+      :path => gitlab['path'],
+      :user => gitlab['user'],
+      :env => gitlab['env']
+    })
+  end
 
-### db:migrate
-execute "rake db:migrate" do
-  command <<-EOS
-    PATH="/usr/local/bin:$PATH"
-    bundle exec rake db:migrate RAILS_ENV=#{gitlab['env']}
-  EOS
-  cwd gitlab['path']
-  user gitlab['user']
-  group gitlab['group']
-  not_if {File.exists?(File.join(gitlab['home'], ".gitlab_migrate"))}
-end
+  ## Start Your GitLab Instance
+  service "gitlab" do
+    supports :start => true, :stop => true, :restart => true, :status => true
+    action :enable
+  end
 
-file File.join(gitlab['home'], ".gitlab_migrate") do
-  owner gitlab['user']
-  group gitlab['group']
-  action :create
-end
-
-### db:seed_fu
-execute "rake db:seed_fu" do
-  command <<-EOS
-    PATH="/usr/local/bin:$PATH"
-    bundle exec rake db:seed_fu RAILS_ENV=#{gitlab['env']}
-  EOS
-  cwd gitlab['path']
-  user gitlab['user']
-  group gitlab['group']
-  not_if {File.exists?(File.join(gitlab['home'], ".gitlab_seed"))}
-end
-
-file File.join(gitlab['home'], ".gitlab_seed") do
-  owner gitlab['user']
-  group gitlab['group']
-  action :create
-end
-
-## Install Init Script
-template "/etc/init.d/gitlab" do
-  source "initd.erb"
-  mode 0755
-  variables({
-    :path => gitlab['path'],
-    :user => gitlab['user'],
-    :env => gitlab['env']
-  })
-end
-
-## Start Your GitLab Instance
-service "gitlab" do
-  supports :start => true, :stop => true, :restart => true, :status => true
-  action :enable
-end
-
-file File.join(gitlab['home'], ".gitlab_start") do
-  owner gitlab['user']
-  group gitlab['group']
-  action :create_if_missing
-  notifies :start, "service[gitlab]"
+  file File.join(gitlab['home'], ".gitlab_start") do
+    owner gitlab['user']
+    group gitlab['group']
+    action :create_if_missing
+    notifies :start, "service[gitlab]"
+  end
+else
+  ## For execute javascript test
+  include_recipe "phantomjs"
 end

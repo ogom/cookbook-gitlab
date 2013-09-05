@@ -5,6 +5,9 @@
 
 gitlab = node['gitlab']
 
+# Merge environmental variables
+gitlab = gitlab.merge(gitlab[gitlab['env']])
+
 # 0. Initial Change
 directory "/tmp" do
   mode 0777
