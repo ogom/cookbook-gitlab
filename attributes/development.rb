@@ -7,7 +7,7 @@ default['gitlab']['development']['home'] = "/home/vagrant"
 default['gitlab']['development']['shell_path'] = "/vagrant/gitlab-shell"
 
 # GitLab hq
-default['gitlab']['production']['revision'] = "master"
+default['gitlab']['development']['revision'] = "master"
 default['gitlab']['development']['path'] = "/vagrant/gitlab"
 
 # GitLab shell config

@@ -26,8 +26,8 @@ mysql_database_user gitlab['user'] do
   action :create
 end
 
+## Create the GitLab database & grant all privileges on database
 gitlab['environments'].each do |environment|
-  ## Create the GitLab database & grant all privileges on database
   mysql_database "gitlabhq_#{environment}" do
     connection mysql_connexion
     action :create
