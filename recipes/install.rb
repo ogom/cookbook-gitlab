@@ -6,7 +6,7 @@
 gitlab = node['gitlab']
 
 # Merge environmental variables
-gitlab = gitlab.merge(gitlab[gitlab['env']])
+gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
 
 include_recipe "gitlab::gitlab_shell"
 include_recipe "gitlab::database_#{gitlab['database_adapter']}"

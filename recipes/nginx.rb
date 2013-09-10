@@ -6,11 +6,11 @@
 gitlab = node['gitlab']
 
 # Merge environmental variables
-gitlab = gitlab.merge(gitlab[gitlab['env']])
+gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
 
 # 7. Nginx
 ## Installation
-package "nginx" do 
+package "nginx" do
   action :install
 end
 
