@@ -6,7 +6,7 @@
 gitlab = node['gitlab']
 
 # Merge environmental variables
-gitlab = gitlab.merge(gitlab[gitlab['env']])
+gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
 
 # 6. GitLab
 ## Clone the Source
@@ -41,7 +41,7 @@ end
   directory File.join(gitlab['path'], path) do
     owner gitlab['user']
     group gitlab['group']
-    mode 0755 
+    mode 0755
   end
 end
 
@@ -56,7 +56,7 @@ end
   directory File.join(gitlab['path'], path) do
     owner gitlab['user']
     group gitlab['group']
-    mode 0755 
+    mode 0755
   end
 end
 
