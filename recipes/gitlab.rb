@@ -6,7 +6,7 @@
 gitlab = node['gitlab']
 
 # Merge environmental variables
-gitlab = gitlab.merge(gitlab[gitlab['env']])
+gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
 
 # 6. GitLab
 ## Clone the Source
@@ -41,7 +41,7 @@ end
   directory File.join(gitlab['path'], path) do
     owner gitlab['user']
     group gitlab['group']
-    mode 0755 
+    mode 0755
   end
 end
 
@@ -56,7 +56,7 @@ end
   directory File.join(gitlab['path'], path) do
     owner gitlab['user']
     group gitlab['group']
-    mode 0755 
+    mode 0755
   end
 end
 
@@ -145,9 +145,11 @@ execute "bundle install" do
   action :nothing
 end
 
+### db:setup
 gitlab['environments'].each do |environment|
   ### db:setup
   file_setup = File.join(gitlab['home'], ".gitlab_setup_#{environment}")
+  file_setup_old = File.join(gitlab['home'], ".gitlab_setup")
   execute "rake db:setup" do
     command <<-EOS
       PATH="/usr/local/bin:$PATH"
@@ -156,7 +158,7 @@ gitlab['environments'].each do |environment|
     cwd gitlab['path']
     user gitlab['user']
     group gitlab['group']
-    not_if {File.exists?(file_setup)}
+    not_if {File.exists?(file_setup) || File.exists?(file_setup_old)}
   end
 
   file file_setup do
@@ -167,6 +169,7 @@ gitlab['environments'].each do |environment|
 
   ### db:migrate
   file_migrate = File.join(gitlab['home'], ".gitlab_migrate_#{environment}")
+  file_migrate_old = File.join(gitlab['home'], ".gitlab_migrate")
   execute "rake db:migrate" do
     command <<-EOS
       PATH="/usr/local/bin:$PATH"
@@ -175,7 +178,7 @@ gitlab['environments'].each do |environment|
     cwd gitlab['path']
     user gitlab['user']
     group gitlab['group']
-    not_if {File.exists?(file_migrate)}
+    not_if {File.exists?(file_migrate) || File.exists?(file_migrate_old)}
   end
 
   file file_migrate do
@@ -186,6 +189,7 @@ gitlab['environments'].each do |environment|
 
   ### db:seed_fu
   file_seed = File.join(gitlab['home'], ".gitlab_seed_#{environment}")
+  file_seed_old = File.join(gitlab['home'], ".gitlab_seed")
   execute "rake db:seed_fu" do
     command <<-EOS
       PATH="/usr/local/bin:$PATH"
@@ -194,7 +198,7 @@ gitlab['environments'].each do |environment|
     cwd gitlab['path']
     user gitlab['user']
     group gitlab['group']
-    not_if {File.exists?(file_seed)}
+    not_if {File.exists?(file_seed) || File.exists?(file_seed_old)}
   end
 
   file file_seed do

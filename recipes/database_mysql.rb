@@ -7,7 +7,7 @@ mysql = node['mysql']
 gitlab = node['gitlab']
 
 # Merge environmental variables
-gitlab = gitlab.merge(gitlab[gitlab['env']])
+gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
 
 # 5.Database
 include_recipe "mysql::server"
@@ -38,7 +38,7 @@ gitlab['environments'].each do |environment|
     password gitlab['database_password']
     database_name "gitlabhq_#{environment}"
     host 'localhost'
-    privileges [:select, :update, :insert, :delete, :create, :drop, :index, :alter]
+    privileges ["SELECT", "UPDATE", "INSERT", "DELETE", "CREATE", "DROP", "INDEX", "ALTER", "LOCK TABLES"]
     action :grant
   end
 end

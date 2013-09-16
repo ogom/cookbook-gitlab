@@ -6,7 +6,7 @@
 gitlab = node['gitlab']
 
 # Merge environmental variables
-gitlab = gitlab.merge(gitlab[gitlab['env']])
+gitlab = Chef::Mixin::DeepMerge.merge(gitlab,gitlab[gitlab['env']])
 
 # Stop server
 service "gitlab" do
@@ -21,7 +21,7 @@ ruby_build_ruby gitlab['ruby'] do
 end
 
 # Get latest code
-## gitlab and gitlab-shell 
+## gitlab and gitlab-shell
 file File.join(gitlab['home'], ".gitlab_start") do
   action :delete
 end
