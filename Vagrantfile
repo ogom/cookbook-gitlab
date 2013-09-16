@@ -50,9 +50,6 @@ Vagrant.configure("2") do |config|
   # View the documentation for the provider you're using for more
   # information on available options.
 
-  config.ssh.max_tries = 40
-  config.ssh.timeout   = 120
-
   # Install the version of Chef by the Vagrant Omnibus
   # version is :latest or "11.4.0"
   config.omnibus.chef_version = :latest

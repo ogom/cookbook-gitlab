@@ -4,7 +4,7 @@ GitLab Cookbook
 Chef to install The GitLab.
 
 * GitLab: 6.0.0
-* GitLab Shell: 1.7.0
+* GitLab Shell: 1.7.1
 * Ruby: 2.0.0
 * Redis: 2.6.13
 * Git: 1.7.12
