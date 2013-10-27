@@ -3,7 +3,7 @@ GitLab Cookbook
 
 Chef to install The GitLab.
 
-* GitLab: 6.0.0
+* GitLab: 6.2.0
 * GitLab Shell: 1.7.1
 * Ruby: 2.0.0
 * Redis: 2.6.13
@@ -46,7 +46,7 @@ Chef to install The GitLab.
 
 ### Vagrant
 
-#### VirtualBox 
+#### VirtualBox
 
 ```bash
 $ gem install berkshelf
@@ -138,7 +138,7 @@ Example of node config.
 
 ### Database use mysql.
 
-Set `mysql` to `database_adapter`.  
+Set `mysql` to `database_adapter`.
 
 ```json
 {
@@ -151,7 +151,7 @@ Set `mysql` to `database_adapter`.
 
 ### GitLab Update
 
-Add `gitlab::update` to `run_list`.  
+Add `gitlab::update` to `run_list`.
 
 ```json
 {
@@ -179,6 +179,6 @@ admin@local.host
 * [Qiita Document](http://qiita.com/items/6491a268bfc95d0a5be4)
 
 
-## License 
+## License
 
 * MIT
