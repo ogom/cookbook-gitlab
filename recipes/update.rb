@@ -13,6 +13,11 @@ service "gitlab" do
   action :stop
 end
 
+# Stop mysql (See https://github.com/ogom/cookbook-gitlab/issues/19 )
+service gitlab['database_adapter']  do
+  action :stop
+end
+
 # Ruby
 include_recipe "ruby_build"
 ruby_build_ruby gitlab['ruby'] do
