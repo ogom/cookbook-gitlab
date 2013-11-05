@@ -3,6 +3,7 @@ Berksfile.lock
 *~
 *#
 .#*
+.DS_Store
 \#*#
 .*.sw[a-z]
 *.un~
