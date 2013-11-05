@@ -15,7 +15,7 @@ default['gitlab']['ruby'] = "2.0.0-p247"
 
 # GitLab shell
 default['gitlab']['shell_repository'] = "https://github.com/gitlabhq/gitlab-shell.git"
-default['gitlab']['shell_revision'] = "v1.7.1"
+default['gitlab']['shell_revision'] = "v1.7.4"
 
 # GitLab hq
 default['gitlab']['repository'] = "https://github.com/gitlabhq/gitlabhq.git"
