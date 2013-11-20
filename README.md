@@ -126,7 +126,8 @@ Example of node config.
     "email_from": "gitlab@example.com",
     "support_email": "support@example.com",
     "database_adapter": "postgresql",
-    "database_password": "datapass"
+    "database_password": "datapass",
+    "env": "production"
   },
   "run_list":[
     "postfix",
