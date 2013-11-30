@@ -7,8 +7,9 @@ upstream gitlab {
 }
 
 server {
-  listen 0.0.0.0:<%= @port %>;
-  server_name <%= @host %>;
+  listen *:<%= @port %> default_server;         # e.g., listen 192.168.1.1:80; In most cases *:80 is a good idea
+  server_name <%= @host %>;     # e.g., server_name source.example.com;
+  server_tokens off;     # don't show the version number, a security best practice
   root <%= @path %>/public;
 
   # individual nginx logs for this gitlab vhost
