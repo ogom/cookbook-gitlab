@@ -1,9 +1,15 @@
 GitLab Cookbook
 ===============
 
+The GitLab Cookbook has been moved to [GitLab Cloud](https://gitlab.com/gitlab-org/cookbook-gitlab/blob/master/README.md).
+
+However, you can use this cookbook.
+
+----
+
 Chef to install The GitLab.
 
-* GitLab: 6.6.2
+* GitLab: 6.6.4
 * GitLab Shell: 1.8.0
 * Ruby: 2.0.0
 * Redis: 2.6.13
@@ -52,7 +58,7 @@ Chef to install The GitLab.
 $ gem install berkshelf
 $ vagrant plugin install vagrant-berkshelf
 $ vagrant plugin install vagrant-omnibus
-$ git clone git://github.com/ogom/cookbook-gitlab ./gitlab
+$ git clone https://github.com/ogom/cookbook-gitlab.git ./gitlab
 $ cd ./gitlab/
 $ vagrant up
 ```
@@ -67,7 +73,7 @@ $ vagrant plugin install vagrant-berkshelf
 $ vagrant plugin install vagrant-omnibus
 $ vagrant plugin install vagrant-aws
 $ vagrant box add dummy https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box
-$ git clone git://github.com/ogom/cookbook-gitlab ./gitlab
+$ git clone https://github.com/ogom/cookbook-gitlab.git ./gitlab
 $ cd ./gitlab/
 $ cp ./example/Vagrantfile_aws ./Vagrantfile
 $ vagrant up --provider=aws
@@ -87,8 +93,8 @@ $ vagrant provision
 $ gem install berkshelf
 $ gem install knife-solo
 $ knife configure
-$ knife solo init ./chef-repo
-$ cd ./chef-repo/
+$ knife solo init ./gitlab_chef
+$ cd ./gitlab_chef/
 $ echo 'cookbook "gitlab", github: "ogom/cookbook-gitlab"' >> ./Berksfile
 $ berks install --path ./cookbooks
 $ knife solo prepare vagrant@127.0.0.1 -p 2222 -i ~/.vagrant.d/insecure_private_key
