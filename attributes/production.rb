@@ -7,7 +7,7 @@ default['gitlab']['production']['home'] = "/home/git"
 default['gitlab']['production']['shell_path'] = "/home/git/gitlab-shell"
 
 # GitLab hq
-default['gitlab']['production']['revision'] = "6-6-stable"
+default['gitlab']['production']['revision'] = "6-7-stable"
 default['gitlab']['production']['path'] = "/home/git/gitlab"
 
 # GitLab shell config
