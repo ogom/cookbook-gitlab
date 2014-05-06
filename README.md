@@ -9,7 +9,7 @@ However, you can use this cookbook.
 
 Chef to install The GitLab.
 
-* GitLab: 6.7.5
+* GitLab: 6.8.1
 * GitLab Shell: 1.9.3
 * Ruby: 2.0.0
 * Redis: 2.6.13
